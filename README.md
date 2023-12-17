@@ -1,16 +1,49 @@
-## Credit Risk Model Development
-1. Data Preparation
-Data Exploration and Cleaning
-The dataset, comprising 30,000 records, was divided into two parts - model training (20,000 records) and out-of-sample (OS) validation (10,000 records). This division aimed to ensure robust model testing and validation. The distribution of the default was 77.21% Good and 22.79% Bad for the training dataset, and 79.22% Good and 20.78% Bad for the OT validation dataset.
-Initial analysis confirmed the absence of missing values, validating the dataset's completeness. The data types of each feature were verified to ensure correct representation, essential for accurate model training. Moreover, SEX, MARRIAGE, EDUCATION, PAY_0, PAY_2, PAY_3, PAY_4, PAY_5. And PAY_6 were treated as categorical variables, though they had numeric datatype.
-Feature Transformation
-Outliers within continuous variables can significantly skew results. To address this, outliers in each continuous feature were identified using the Interquartile Range (IQR) method and replaced with the median values of the respective features. This approach aimed to minimize the impact of extreme values on the model's performance. Table 1 below gives a summary of the percentage of outliers replaced across all the continuous variables.
-2. Feature Selection
-Categorical Feature Selection Using Chi-square Test
-The Chi-square test was employed to evaluate the relationship between each categorical variable and the target variable ('default payment next month'). This test is crucial for determining whether a categorical variable is independent of the target or has a significant association with it. All categorical variables had some level of association with the target variable.
-Continuous Feature Selection Using Mann-Whitney Test
-The Mann-Whitney test was employed to evaluate the predictive power of continuous features due to the non-normal distribution of the features, as determined by the Kolmogorov-Smirnov test. This non-parametric test helped in identifying the significance of each feature in predicting the target variable. Out of 14 continuous variables, the top 10 features were selected based on their p-values, with lower p-values indicating higher predictive relevance. This approach ensured a more accurate feature selection tailored to the data's distribution characteristics.
-Multi-collinearity and Contingency coefficient
-Multi-collinearity check was carried out by looking at the Spearman correlation heatmap of the continuous variables. Two of the continuous variables selected had an absolute value of Spearman correlation of up to 0.8, as seen in the heatmap shown in Figure 1; thus, BILL_AMT2 and BILL_AMT3 were dropped. Spearman correlation was used because the continuous variables were not normally distributed. Also, the contingency coefficient was calculated amongst the categorical variables. The PAY_2, PAY_3, PAY_4, and PAY_5 variables were dropped because they had high contingency coefficient scores with the PAY_0 variable.
-Information Value (IV) and Weight of Evidence (WoE)
-The WoE was calculated for both continuous and categorical variables, providing a measure of the predictive power of individual feature categories. This technique also facilitated the binarization of variables, transforming them into binary features with similar WoE values grouped together. The IV of each feature was used to assess its overall predictive power, with higher IV values indicating more significant predictors. Leveraging the IV, 6 features were selected, viz., LIMIT_BAL, PAY_AMT1, PAY_AMT2, EDUCATION, PAY_6, and PAY_0. These features were then used to create 25 binary variables.
+# Credit Risk Model Development
+
+## 1. Data Preparation
+
+### Data Exploration and Cleaning
+- **Dataset Overview**: 30,000 records divided for model training and out-of-sample validation.
+- **Default Distribution**: Specified percentages for Good and Bad in both training and validation sets.
+- **Data Integrity**: Ensured with no missing values and correct data types.
+- **Categorical Variables**: Identified specific variables as categorical.
+
+### Feature Transformation
+- **Outliers Handling**: Addressed using the Interquartile Range method.
+
+## 2. Feature Selection
+
+### Categorical Feature Selection Using Chi-square Test
+- **Test Application**: Evaluated the association with the target variable.
+
+### Continuous Feature Selection Using Mann-Whitney Test
+- **Test Application**: Selected top features based on p-values.
+
+### Multi-collinearity and Contingency Coefficient
+- **Analysis**: Spearman correlation heatmap used; certain variables dropped due to high correlation or contingency coefficients.
+
+### Information Value (IV) and Weight of Evidence (WoE)
+- **WoE Calculation**: Assisted in binarization.
+- **Feature Selection**: Selected features based on IV, creating binary variables.
+
+## 3. Model Evaluation and Validation
+
+### Machine Learning Modelling
+- **Model Training**: Logistic Regression and Random Forest with different feature sets.
+- **Addressing Data Imbalance**: Adjusted class weights in models.
+- **Model Performance Metrics**: Used AUC and Gini Coefficient.
+- **Model Selection**: Based on performance metrics; preferred model selected.
+
+### Model Discriminatory Power
+- **Analysis**: Assessed using probability distribution and performance scores.
+
+## 4. Scorecard Development and Calibration
+
+### Scorecard Development
+- **Transformation**: Adjusted to align with typical credit scoring range.
+
+### Scorecard Calibration
+- **Process**: Adjusted coefficients to match credit scoring practices and risk levels.
+
+## Conclusion
+- **Overview**: Effective combination of predictive accuracy and practical applicability in the credit risk model and scorecard.
